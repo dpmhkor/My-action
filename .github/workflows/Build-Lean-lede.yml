@@ -62,6 +62,8 @@ jobs:
         #curl --socks5 ${{ secrets.PROXY_ADDR }} -U ${{ secrets.PROXY_USER }} -F "token=${{ secrets.UPLOAD_TOKEN }}" -F "location=Router/LEDE/x86_64/Lean-Package" -F "file=@x86_64-Package.zip" ${{ secrets.CN_STATION_PROCESSOR }}
         
     - name: Setup Upload dictionary
+      env:
+        ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
       if: always()
       run: |
         cd lede/bin/targets/*/*
