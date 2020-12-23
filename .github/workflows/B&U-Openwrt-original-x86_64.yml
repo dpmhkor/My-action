@@ -79,8 +79,6 @@ jobs:
         path: openwrt/bin
 
     - name: Setup Upload dictionary
-      env:
-        ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
       if: always()
       run: |
         cd openwrt/bin/targets/*/*
