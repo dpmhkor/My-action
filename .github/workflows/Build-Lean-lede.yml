@@ -6,6 +6,7 @@ on:
     paths:
       - '.github/workflows/Build-Lean-lede.yml'
       -  'lean-lede/x86_64/.config'
+      -  'lean-lede/x86_64_sysupgrade/.config'
       -  'lean-lede/rpi4/.config'
       -  'lean-lede/rpi/.config'
       -  'lean-lede/rpi32/.config'
@@ -73,7 +74,65 @@ jobs:
       with:
         name: x86_64
         path: ${{ env.FIRMWARE }}
+
+  x86_sysupgrade:
+    runs-on: ubuntu-latest
+    steps:    
+    - name: Prepare environment.
+      env:
+          DEBIAN_FRONTEND: noninteractive
+      run: |
+        bash <(curl -fsSL https://raw.githubusercontent.com/dpmhkor/My-action/master/lean-lede/prenv.sh)
         
+    - name: Clone Source
+      run: |
+        git clone https://github.com/coolsnowwolf/lede
+        
+    - name: Download and Load custom configuration
+      run: |
+        cd lede
+        curl -fsSL https://raw.githubusercontent.com/dpmhkor/My-action/master/lean-lede/x86_64_sysupgrade/.config >.config
+        bash <(curl -fsSL https://raw.githubusercontent.com/dpmhkor/My-action/master/lean-lede/diy.sh)
+        make defconfig
+        
+    - name: Download package
+      run: |
+        cd lede
+        make download -j8
+        find dl -size -1024c -exec ls -l {} \;
+        find dl -size -1024c -exec rm -f {} \;
+        sudo df -h
+        
+    - name: Multi-core or Single core compile
+      run: |
+        cd lede
+        echo -e "$(nproc) thread compile"
+        sudo df -h
+        make -j$(nproc) || make -j1 V=s
+        sudo df -h
+        
+    - name: Upload entire bin directory
+      uses: actions/upload-artifact@master
+      if: always()
+      with:
+        name: LEDE-x86_64_sysupgrade-bin-dictionary
+        path: lede/bin
+        
+    - name: Setup Upload dictionary
+      if: always()
+      run: |
+        cd lede/bin/targets/*/*
+        rm -rf packages
+        echo "::set-env name=FIRMWARE::$(pwd)"
+        
+    - name: Only Upload firmware (Without packages)
+      uses: actions/upload-artifact@master
+      if: always()
+      with:
+        name: x86_64_sysupgrade
+        path: ${{ env.FIRMWARE }}
+
+
   Raspberry3:
     runs-on: ubuntu-latest
     steps:
