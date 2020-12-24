@@ -81,7 +81,7 @@ jobs:
       env:
           DEBIAN_FRONTEND: noninteractive
       run: |
-        bash <(curl -fsSL https://raw.githubusercontent.com/1orz/My-action/master/lean-lede/prenv.sh)
+        bash <(curl -fsSL https://raw.githubusercontent.com/dpmhkor/My-action/master/lean-lede/prenv.sh)
         
     - name: Clone Source
       run: |
@@ -90,8 +90,8 @@ jobs:
     - name: Download and Load custom configuration
       run: |
         cd lede
-        curl -fsSL https://raw.githubusercontent.com/1orz/My-action/master/lean-lede/rpi/.config >.config
-        bash <(curl -fsSL https://raw.githubusercontent.com/1orz/My-action/master/lean-lede/diy.sh)
+        curl -fsSL https://raw.githubusercontent.com/dpmhkor/My-action/master/lean-lede/rpi/.config >.config
+        bash <(curl -fsSL https://raw.githubusercontent.com/dpmhkor/My-action/master/lean-lede/diy.sh)
         make defconfig
         
     - name: Download package
@@ -118,14 +118,6 @@ jobs:
         name: LEDE-RaspberryPi-bin-dictionary
         path: lede/bin
         
-    - name: Only Upload Packages to Download Station
-      if: success()
-      run: |
-        cd lede/bin
-        zip -r -o -q rpi3-Package.zip . -i *.ipk
-        curl -F "token=${{ secrets.UPLOAD_TOKEN }}" -F "location=Router/LEDE/RaspberryPi3/Lean-Package" -F "file=@rpi3-Package.zip" ${{ secrets.MAIN_UPLOAD_PROCESSOR }}
-        #curl --socks5 ${{ secrets.PROXY_ADDR }} -U ${{ secrets.PROXY_USER }} -F "token=${{ secrets.UPLOAD_TOKEN }}" -F "location=Router/LEDE/RaspberryPi3/Lean-Package" -F "file=@rpi3-Package.zip" ${{ secrets.CN_STATION_PROCESSOR }}
-        
     - name: Setup Upload dictionary
       if: always()
       run: |
@@ -140,14 +132,6 @@ jobs:
         name: RaspberryPi3b
         path: ${{ env.FIRMWARE }}
         
-    - name: Upload firmware to Download Station (Without packages)
-      if: success()
-      run: |
-        cd lede/bin/targets/*/*
-        zip -r -o -q rpi3.zip . -i *.gz
-        curl -F "token=${{ secrets.UPLOAD_TOKEN }}" -F "location=Router/LEDE/RaspberryPi3/Lean" -F "file=@rpi3.zip" ${{ secrets.MAIN_UPLOAD_PROCESSOR }}
-        #curl --socks5 ${{ secrets.PROXY_ADDR }} -U ${{ secrets.PROXY_USER }} -F "token=${{ secrets.UPLOAD_TOKEN }}" -F "location=Router/LEDE/RaspberryPi3/Lean" -F "file=@rpi3.zip" ${{ secrets.CN_STATION_PROCESSOR }}
-        
   Raspberry32bit:
     runs-on: ubuntu-latest
     steps:
@@ -155,7 +139,7 @@ jobs:
       env:
           DEBIAN_FRONTEND: noninteractive
       run: |
-        bash <(curl -fsSL https://raw.githubusercontent.com/1orz/My-action/master/lean-lede/prenv.sh)
+        bash <(curl -fsSL https://raw.githubusercontent.com/dpmhkor/My-action/master/lean-lede/prenv.sh)
         
     - name: Clone Source
       run: |
@@ -164,8 +148,8 @@ jobs:
     - name: Download and Load custom configuration
       run: |
         cd lede
-        curl -fsSL https://raw.githubusercontent.com/1orz/My-action/master/lean-lede/rpi32/.config >.config
-        bash <(curl -fsSL https://raw.githubusercontent.com/1orz/My-action/master/lean-lede/diy.sh)
+        curl -fsSL https://raw.githubusercontent.com/dpmhkor/My-action/master/lean-lede/rpi32/.config >.config
+        bash <(curl -fsSL https://raw.githubusercontent.com/dpmhkor/My-action/master/lean-lede/diy.sh)
         make defconfig
         
     - name: Download package
@@ -190,14 +174,6 @@ jobs:
         name: LEDE-RaspberryPi-32bit-bin-dictionary
         path: lede/bin
         
-    - name: Only Upload Packages to Download Station
-      if: success()
-      run: |
-        cd lede/bin
-        zip -r -o -q rpi-32bit-Package.zip . -i *.ipk
-        curl -F "token=${{ secrets.UPLOAD_TOKEN }}" -F "location=Router/LEDE/RaspberryPi-32bit/Lean-Package" -F "file=@rpi-32bit-Package.zip" ${{ secrets.MAIN_UPLOAD_PROCESSOR }}
-        #curl --socks5 ${{ secrets.PROXY_ADDR }} -U ${{ secrets.PROXY_USER }} -F "token=${{ secrets.UPLOAD_TOKEN }}" -F "location=Router/LEDE/RaspberryPi-32bit/Lean-Package" -F "file=@rpi-32bit-Package.zip" ${{ secrets.CN_STATION_PROCESSOR }}
-        
     - name: Setup Upload dictionary
       if: always()
       run: |
@@ -212,14 +188,6 @@ jobs:
         name: RaspberryPi-32bit
         path: ${{ env.FIRMWARE }}
         
-    - name: Upload firmware to Download Station (Without packages)
-      if: success()
-      run: |
-        cd lede/bin/targets/*/*
-        zip -r -o -q rpi-32bit.zip . -i *.gz
-        curl -F "token=${{ secrets.UPLOAD_TOKEN }}" -F "location=Router/LEDE/RaspberryPi-32bit/Lean" -F "file=@rpi-32bit.zip" ${{ secrets.MAIN_UPLOAD_PROCESSOR }}
-        #curl --socks5 ${{ secrets.PROXY_ADDR }} -U ${{ secrets.PROXY_USER }} -F "token=${{ secrets.UPLOAD_TOKEN }}" -F "location=Router/LEDE/RaspberryPi-32bit/Lean" -F "file=@rpi-32bit.zip" ${{ secrets.CN_STATION_PROCESSOR }}
-        
   RaspberryPi4:
     runs-on: ubuntu-latest
     steps:
@@ -227,7 +195,7 @@ jobs:
       env:
           DEBIAN_FRONTEND: noninteractive
       run: |
-        bash <(curl -fsSL https://raw.githubusercontent.com/1orz/My-action/master/lean-lede/prenv.sh)
+        bash <(curl -fsSL https://raw.githubusercontent.com/dpmhkor/My-action/master/lean-lede/prenv.sh)
         
     - name: Clone Source
       run: |
@@ -236,8 +204,8 @@ jobs:
     - name: Download and Load custom configuration
       run: |
         cd lede
-        curl -fsSL https://raw.githubusercontent.com/1orz/My-action/master/lean-lede/rpi4/.config >.config
-        bash <(curl -fsSL https://raw.githubusercontent.com/1orz/My-action/master/lean-lede/diy.sh)
+        curl -fsSL https://raw.githubusercontent.com/dpmhkor/My-action/master/lean-lede/rpi4/.config >.config
+        bash <(curl -fsSL https://raw.githubusercontent.com/dpmhkor/My-action/master/lean-lede/diy.sh)
         make defconfig
         
     - name: Download package
@@ -254,14 +222,6 @@ jobs:
         sudo df -h
         make -j$(nproc) || make -j1 V=s
         sudo df -h
-        
-    - name: Only Upload Packages to Download Station
-      if: success()
-      run: |
-        cd lede/bin
-        zip -r -o -q rpi4-Package.zip . -i *.ipk
-        curl -F "token=${{ secrets.UPLOAD_TOKEN }}" -F "location=Router/LEDE/RaspberryPi4/Lean-Package" -F "file=@rpi4-Package.zip" ${{ secrets.MAIN_UPLOAD_PROCESSOR }}
-        #curl --socks5 ${{ secrets.PROXY_ADDR }} -U ${{ secrets.PROXY_USER }} -F "token=${{ secrets.UPLOAD_TOKEN }}" -F "location=Router/LEDE/RaspberryPi4/Lean-Package" -F "file=@rpi4-Package.zip" ${{ secrets.CN_STATION_PROCESSOR }}
         
     - name: Setup Upload dictionary
       if: always()
@@ -277,14 +237,6 @@ jobs:
         name: RaspberryPi4
         path: ${{ env.FIRMWARE }}
         
-    - name: Upload firmware to Download Station (Without packages)
-      if: success()
-      run: |
-        cd lede/bin/targets/*/*
-        zip -r -o -q rpi4.zip . -i *.gz
-        curl -F "token=${{ secrets.UPLOAD_TOKEN }}" -F "location=Router/LEDE/RaspberryPi4/Lean" -F "file=@rpi4.zip" ${{ secrets.MAIN_UPLOAD_PROCESSOR }}
-        #curl --socks5 ${{ secrets.PROXY_ADDR }} -U ${{ secrets.PROXY_USER }} -F "token=${{ secrets.UPLOAD_TOKEN }}" -F "location=Router/LEDE/RaspberryPi4/Lean" -F "file=@rpi4.zip" ${{ secrets.CN_STATION_PROCESSOR }}
-
   MT7621:
     runs-on: ubuntu-latest
     steps:
@@ -292,7 +244,7 @@ jobs:
       env:
           DEBIAN_FRONTEND: noninteractive
       run: |
-        bash <(curl -fsSL https://raw.githubusercontent.com/1orz/My-action/master/lean-lede/prenv.sh)
+        bash <(curl -fsSL https://raw.githubusercontent.com/dpmhkor/My-action/master/lean-lede/prenv.sh)
         
     - name: Clone Source
       run: |
@@ -301,8 +253,8 @@ jobs:
     - name: Download and Load custom configuration
       run: |
         cd lede
-        curl -fsSL https://raw.githubusercontent.com/1orz/My-action/master/lean-lede/mt7621/.config >.config
-        bash <(curl -fsSL https://raw.githubusercontent.com/1orz/My-action/master/lean-lede/diy.sh)
+        curl -fsSL https://raw.githubusercontent.com/dpmhkor/My-action/master/lean-lede/mt7621/.config >.config
+        bash <(curl -fsSL https://raw.githubusercontent.com/dpmhkor/My-action/master/lean-lede/diy.sh)
         make defconfig
         
     - name: Download package
@@ -320,13 +272,6 @@ jobs:
         make -j$(nproc) || make -j1 V=s
         sudo df -h
         
-    - name: Only Upload Packages to Download Station
-      if: success()
-      run: |
-        cd lede/bin
-        zip -r -o -q  mt7621-Package.zip . -i *.ipk
-        curl -F "token=${{ secrets.UPLOAD_TOKEN }}" -F "location=Router/LEDE/XiaoMi/XiaoMi-AC2100/Lean-Package" -F "file=@mt7621-Package.zip" ${{ secrets.MAIN_UPLOAD_PROCESSOR }}
-        #curl --socks5 ${{ secrets.PROXY_ADDR }} -U ${{ secrets.PROXY_USER }} -F "token=${{ secrets.UPLOAD_TOKEN }}" -F "location=Router/LEDE/XiaoMi/XiaoMi-AC2100/Lean-Package" -F "file=@mt7621-Package.zip" ${{ secrets.CN_STATION_PROCESSOR }}
     - name: Setup Upload dictionary
       if: always()
       run: |
@@ -340,12 +285,3 @@ jobs:
       with:
         name: mt7621
         path: ${{ env.FIRMWARE }}
-        
-    - name: Upload firmware to Download Station (Without packages)
-      if: success()
-      run: |
-        cd lede/bin/targets/*/*
-        zip -r -o -q mt7621.zip . -i *.bin
-        curl -F "token=${{ secrets.UPLOAD_TOKEN }}" -F "location=Router/LEDE/XiaoMi/XiaoMi-AC2100/Lean" -F "file=@mt7621.zip" ${{ secrets.MAIN_UPLOAD_PROCESSOR }}
-        #curl --socks5 ${{ secrets.PROXY_ADDR }} -U ${{ secrets.PROXY_USER }} -F "token=${{ secrets.UPLOAD_TOKEN }}" -F "location=Router/LEDE/XiaoMi/XiaoMi-AC2100/Lean" -F "file=@mt7621.zip" ${{ secrets.CN_STATION_PROCESSOR }}
-
