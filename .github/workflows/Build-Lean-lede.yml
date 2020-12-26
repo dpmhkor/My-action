@@ -12,7 +12,7 @@ on:
       -  'lean-lede/rpi32/.config'
       -  'lean-lede/mt7621/.config'
   schedule:
-        - cron: 0 21 * * *
+        - cron: 0 12 * * *
           
 env:
   ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
